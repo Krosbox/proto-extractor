@@ -41,7 +41,10 @@ namespace protoextractor.decompiler.c_sharp.inspectors
 
 		public static List<FieldDefinition> ExtractClassFields(TypeDefinition subjectClass)
 		{
-			var filteredFields = subjectClass.Fields.Where(field => !field.Name.StartsWith("has") && !field.Name.Contains("Number"));
+			var filteredFields = subjectClass.Fields.Where(field => (
+				field.Name.StartsWith("hasTargetTypeCriterion") ||
+				field.Name.StartsWith("hasType") || field.Name.StartsWith("hasAttributeModificationFromAbilityCriterion") || field.Name.StartsWith("hasAdjacentInvocationCountCriterion") || field.Name.StartsWith("hasFigureWithTagCountCriterion") || field.Name.StartsWith("hasLevelCriterion") || field.Name.StartsWith("hasTagCriterion") || field.Name.StartsWith("hasInjuryMarkerCountCriterion") || field.Name.StartsWith("hasAttributeCriterion") || field.Name.StartsWith("hasIsInvocationOfKindCriterion") || field.Name.StartsWith("hasIsInvocationOfTypeCriterion") || field.Name.StartsWith("hasAbilityCriterion") || field.Name.StartsWith("hasFirstCastInPhaseCriterion") || field.Name.StartsWith("hasKamaCriterion") || field.Name.StartsWith("hasTokenCountCriterion") || field.Name.StartsWith("hasAlreadyBeenHitByFigureCriterion") || field.Name.StartsWith("hasAdjacentManifestationCriterion") || field.Name.StartsWith("hasAdjacentAllyWithAbilityCriterion") || field.Name.StartsWith("hasRelativeLevelCriterion") || field.Name.StartsWith("hasKamaCountFromOpponentCriterion") || field.Name.StartsWith("hasAlreadyUndergoEffectThisCastCriterion") || field.Name.StartsWith("hasAlliesCountCriterion") || field.Name.StartsWith("hasDemonicRewardCriterion") ||
+				!field.Name.StartsWith("has")) && !field.Name.Contains("Number"));
 			return new List<FieldDefinition>(filteredFields);
 		}
 
@@ -117,7 +120,8 @@ namespace protoextractor.decompiler.c_sharp.inspectors
 				{
 					// Find out definition from arguments
 					var cleanFieldName = fieldName.ToLower().Replace("_", "");
-					var fieldRef = allFields.OrderBy(f => f.Name.Length).First(field => field.Name.ToLower().Contains(cleanFieldName));
+					var orderedAllFields = allFields.OrderBy(f => f.Name.Length);
+					var fieldRef = orderedAllFields.First(field => field.Name.ToLower().Contains(cleanFieldName));
 					fieldReference = fieldRef.FieldType;
 				}
 
