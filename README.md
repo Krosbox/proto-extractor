@@ -6,7 +6,7 @@
 git clone https://github.com/Krosbox/proto-extractor.git
 cd proto-extractor/mono-extractor
 msbuild
-mono bin/Debug/mono-extractor.exe --proto3 \
+mono bin/Debug/mono-extractor.exe \
 --libPath $KROSBOX_DATA/Managed \
 --outPath ../output  $KROSBOX_DATA/Managed/core-protocol-csharp-arena.dll
 ```
